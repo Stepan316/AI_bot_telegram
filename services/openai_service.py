@@ -1,38 +1,71 @@
+import logging
+from typing import Any
 from openai import AsyncOpenAI
 from config import TOKEN_GPT
-import logging
-import asyncio
 
+
+# Создаем асинхронного клиента OpenAI
 client = AsyncOpenAI(api_key=TOKEN_GPT)
-MODEL = 'gpt-4o-mini'
+MODEL = 'gpt-4o-mini'  # Модель GPT для использования
 
 logger = logging.getLogger(__name__)
 
 
+# Вспомогательная функция для приведения любого значения к строке
+def _normalize_text(value: Any) -> str:
+    if isinstance(value, str):
+        return value
+    if isinstance(value, (list, tuple)):
+        return ''.join(_normalize_text(item) for item in value)
+    if value is None:
+        return ''
+    return str(value)
+
+
+# Основная функция запроса к GPT
 async def ask_gpt(
-        user_message: str,
-        system_prompt: str = 'Ты полезный ассистент.Отвечай кратко и по делу',
-        history: list = None
+        user_message: Any,
+        system_prompt: Any = 'Ты полезный ассистент.Отвечай кратко и по делу',
+        history: list[dict[str, Any]] | None = None
 ) -> str:
     try:
-        messages = [{'role': 'system', 'content': system_prompt}]
+        # Приведение текста к строке
+        system_text = _normalize_text(system_prompt)
+        user_text = _normalize_text(user_message)
 
+        # Стартовое сообщение системы
+        messages = [{'role': 'system', 'content': system_text}]
+
+        # Добавление истории, если есть
         if history:
-            messages.append(history)
-        messages.append({'role': 'user', 'content': user_message})
-        logger.info(f'GPT запрос {user_message[:20]}')
+            valid_history = [
+                {
+                    'role': item['role'],
+                    'content': _normalize_text(item['content'])
+                }
+                for item in history
+                if isinstance(item, dict) and 'role' in item and 'content' in item
+            ]
+            messages.extend(valid_history)
 
+        # Сообщение текущего пользователя
+        messages.append({'role': 'user', 'content': user_text})
+
+        logger.info(f'GPT запрос {user_text[:120]}')  # Логируем первые 120 символов запроса
+
+        # Асинхронный вызов OpenAI GPT
         response = await client.chat.completions.create(
             model=MODEL,
             messages=messages,
-            max_tokens=1000,
-            temperature=0.8
+            max_tokens=1000,  # Максимальное количество токенов в ответе
+            temperature=0.8  # Креативность ответа
         )
 
-        answer = response.choices[0].message.content
+        # Получаем текст ответа
+        answer = response.choices[0].message.content or ''
         logger.info(f'Ответ GPT: {len(answer)} символов')
         return answer
+
     except Exception as e:
         logger.error(f'Ошибка GPT {e}')
         return 'Ошибка при обращении к GPT. Попробуй еще раз'
-
