@@ -1,13 +1,15 @@
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
+from handlers.game import show_game_menu
 from handlers.quiz import cmd_quiz
+from handlers.translate import show_translate_menu
 from keyboards.inline import main_menu
 from handlers.random_fact import send_random_fact
 from handlers.gpt_chat import cmd_gpt
 from aiogram.fsm.context import FSMContext
 from handlers.talk import cmd_talk
-
+from states.state import TranslateStates
 
 router = Router()  # Создаем локальный роутер для этих обработчиков
 
@@ -33,6 +35,8 @@ async def cmd_help(message: Message):
         '/gpt - Диалог с ChatGPT\n'
         '/talk - Диалог с известной личностью\n'
         '/quiz - Квиз\n'
+        '/game - Игра\n'
+        '/translate - Переводчик\n'
         '/help - Список команд'
     )
     #Все команды здесь статические, если добавлять новые — не забудь обновить текст
@@ -65,3 +69,18 @@ async def on_menu_talk(callback: CallbackQuery, state: FSMContext):
 async def on_menu_quiz(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     await cmd_quiz(callback.message, state)
+
+
+# Callback кнопка "Игра"
+@router.callback_query(F.data == 'menu:game')
+async def on_menu_game(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
+    await show_game_menu(callback.message, state)
+
+
+# Callback кнопка "Переводчик"
+@router.callback_query(F.data == 'menu:translate')
+async def on_menu_translate(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
+    await state.set_state(TranslateStates.waiting_input)
+    await show_translate_menu(callback.message, state)

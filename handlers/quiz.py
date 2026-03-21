@@ -9,8 +9,21 @@ from keyboards.inline import topics_keyboard, after_answer_keyboard
 from utils.quiz_generate import send_next_question, check_answer
 from data.topics import TOPICS
 
+
 router = Router()
 logger = logging.getLogger(__name__)
+
+
+async def safe_edit(message, text, reply_markup=None):
+    try:
+        if message.text:
+            await message.edit_text(text, reply_markup=reply_markup)
+        elif message.caption is not None:
+            await message.edit_caption(caption=text, reply_markup=reply_markup)
+        else:
+            await message.answer(text, reply_markup=reply_markup)
+    except Exception:
+        await message.answer(text, reply_markup=reply_markup)
 
 
 # Команда /quiz — запуск квиза
@@ -55,8 +68,8 @@ async def on_topic_choosen(callback: CallbackQuery, state: FSMContext):
     await state.set_state(QuizStates.answering)  # Переходим к состоянию ответов
     await callback.answer(f'Тема {topic["name"]}')  # Уведомление о выборе темы
 
-    await callback.message.edit_caption(
-        caption=f'{topic["name"]} - Отличный выбор! Генерирую вопрос'
+    await safe_edit(callback.message,
+        f'{topic["name"]} - Отличный выбор! Генерирую вопрос'
     )
 
     await send_next_question(callback.message, state, topic_key)  # Отправка первого вопроса

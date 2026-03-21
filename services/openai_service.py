@@ -69,3 +69,13 @@ async def ask_gpt(
     except Exception as e:
         logger.error(f'Ошибка GPT {e}')
         return 'Ошибка при обращении к GPT. Попробуй еще раз'
+
+async def speech_to_text(file_path: str):
+    audio_file = open(file_path, "rb")
+
+    transcript = await client.audio.transcriptions.create(
+        model="gpt-4o-transcribe",
+        file=audio_file
+    )
+
+    return transcript.text

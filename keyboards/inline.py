@@ -12,6 +12,8 @@ def main_menu() -> InlineKeyboardMarkup:
             [InlineKeyboardButton(text='🤖 Chat GPT', callback_data='menu:gpt')],
             [InlineKeyboardButton(text='🗣️ Диалог с личностью', callback_data='menu:talk')],
             [InlineKeyboardButton(text='🎯 Квиз', callback_data='menu:quiz')],
+            [InlineKeyboardButton(text='🕹 Игра', callback_data='menu:game')],
+            [InlineKeyboardButton(text='🌍 Переводчик', callback_data='menu:translate')]
         ]
     )
     return keyboard
@@ -101,3 +103,56 @@ def after_answer_keyboard() -> InlineKeyboardMarkup:
             [InlineKeyboardButton(text='🛑 Закончить квиз', callback_data='quiz:stop')],
         ]
     )
+
+
+# Клавиатура для игры
+def game_start_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text='▶️ Начать игру', callback_data='game:start')],
+            [InlineKeyboardButton(text='⛔️ Назад', callback_data='game:cancel')]
+        ]
+    )
+
+
+def game_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text='✅ Правда', callback_data='game:true')],
+            [InlineKeyboardButton(text='❌ Ложь', callback_data='game:false')]
+        ]
+    )
+
+
+def game_after_answer_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text='▶️ Дальше', callback_data='game:next')],
+            [InlineKeyboardButton(text='⛔️ Закончить', callback_data='game:stop')]
+        ]
+    )
+
+
+def translate_menu_kb():
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="🚀 Начать перевод", callback_data="translate:start")],
+        [InlineKeyboardButton(text="❌ Назад", callback_data="menu:main")]
+    ])
+
+
+def confirm_kb():
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text="✅ Да", callback_data="translate:yes"),
+            InlineKeyboardButton(text="❌ Нет", callback_data="translate:no"),
+        ]
+    ])
+
+
+def after_kb():
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text="🔁 Перевести ещё", callback_data="translate:again"),
+            InlineKeyboardButton(text="❌ Выход", callback_data="translate:cancel"),
+        ]
+    ])
