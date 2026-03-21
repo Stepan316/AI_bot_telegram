@@ -91,8 +91,6 @@ project/
 ## ⚙️ Установка
 
 ### 1. Клонировать репозиторий
-
-```bash
 git clone https://github.com/Stepan316/AI_bot_telegram.git
 cd AI_bot_telegram
 
