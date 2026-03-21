@@ -86,7 +86,6 @@ project/
 ├── requirements.txt
 └── .gitignore
 
-
 ---
 
 ## ⚙️ Установка
@@ -97,29 +96,35 @@ project/
 git clone https://github.com/Stepan316/AI_bot_telegram.git
 cd AI_bot_telegram
 
+---
 
 ## ⚙️ Установка зависимости
 pip install -r requirements.txt
 
+---
 
 ## ⚙️ Настроить переменные окружения
 ### 1. Создай файл .env
 BOT_TOKEN=your_telegram_bot_token
 OPENAI_API_KEY=your_openai_api_key
 
+---
 
-#▶️ Запуск
+# ▶️ Запуск
 python main.py
 
+---
 
-⚠️ Особенности
+# ⚠️ Особенности
 - Используется FSM для управления состояниями
 - Поддержка текста и голосовых сообщений
 - Интеграция с OpenAI API
 - Асинхронная архитектура
 - Обработка кнопок и callback-запросов
 
-👨‍💻 Автор
+---
+
+# 👨‍💻 Автор
 Степан
 тг. @Stepan_520
 
