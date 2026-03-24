@@ -136,7 +136,7 @@ def game_after_answer_keyboard():
 def translate_menu_kb():
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="🚀 Начать перевод", callback_data="translate:start")],
-        [InlineKeyboardButton(text="❌ Назад", callback_data="menu:main")]
+        [InlineKeyboardButton(text="❌ Выход", callback_data="menu:main")]
     ])
 
 
@@ -153,6 +153,6 @@ def after_kb():
     return InlineKeyboardMarkup(inline_keyboard=[
         [
             InlineKeyboardButton(text="🔁 Перевести ещё", callback_data="translate:again"),
-            InlineKeyboardButton(text="❌ Выход", callback_data="translate:cancel"),
+            InlineKeyboardButton(text="❌ Назад", callback_data="translate:cancel"),
         ]
     ])

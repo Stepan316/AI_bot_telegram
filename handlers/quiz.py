@@ -75,6 +75,7 @@ async def on_topic_choosen(callback: CallbackQuery, state: FSMContext):
     await send_next_question(callback.message, state, topic_key)  # Отправка первого вопроса
 
 
+
 # Обработка ответа пользователя
 @router.message(QuizStates.answering, F.text)
 async def cmd_answer(message: Message, state: FSMContext):

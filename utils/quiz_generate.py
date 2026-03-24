@@ -1,5 +1,6 @@
 from html import escape
 from aiogram.enums import ChatAction
+from keyboards.inline import after_answer_keyboard
 from services.openai_service import ask_gpt
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
@@ -91,5 +92,6 @@ async def send_next_question(message: Message, state: FSMContext, topic_key: str
     # Отправляем пользователю
     await message.answer(
         f'Счет <b>{score}/{total}</b> | Тема <b>{escape(topic_name)}</b>\n\n'
-        f'<b>Вопрос</b>\n{escape(question)}'
+        f'<b>Вопрос</b>\n{escape(question)}',
+        reply_markup=after_answer_keyboard()
     )
