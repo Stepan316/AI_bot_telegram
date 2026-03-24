@@ -11,6 +11,7 @@ from aiogram.fsm.context import FSMContext
 from handlers.talk import cmd_talk
 from states.state import TranslateStates
 
+
 router = Router()  # Создаем локальный роутер для этих обработчиков
 
 

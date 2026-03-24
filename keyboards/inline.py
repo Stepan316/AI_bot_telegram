@@ -115,6 +115,7 @@ def game_start_keyboard():
     )
 
 
+# Клавиатура для игры, выбор пользователя
 def game_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
@@ -124,6 +125,7 @@ def game_keyboard() -> InlineKeyboardMarkup:
     )
 
 
+# Клавиатура после ответа на вопрос игры
 def game_after_answer_keyboard():
     return InlineKeyboardMarkup(
         inline_keyboard=[
@@ -133,6 +135,7 @@ def game_after_answer_keyboard():
     )
 
 
+# Клавиатура переводчика
 def translate_menu_kb():
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="🚀 Начать перевод", callback_data="translate:start")],
@@ -140,6 +143,7 @@ def translate_menu_kb():
     ])
 
 
+# Клавиатура переводчика, подтверждение языка
 def confirm_kb():
     return InlineKeyboardMarkup(inline_keyboard=[
         [
@@ -149,6 +153,7 @@ def confirm_kb():
     ])
 
 
+# Клавиатура переводчика, ответ после перевода
 def after_kb():
     return InlineKeyboardMarkup(inline_keyboard=[
         [

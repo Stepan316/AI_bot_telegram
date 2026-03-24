@@ -47,6 +47,7 @@ async def show_game_menu(message: Message, state: FSMContext):
                 'Тебе будет показано утверждение.\n'
                 'Попробуй угадать — правда это или ложь.')
 
+
 # Проверка
 async def check_statement(statement: str):
     prompt = (
